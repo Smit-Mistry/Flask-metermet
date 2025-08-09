@@ -11,6 +11,8 @@
 
 from flask import Flask, request
 import time,logging
+from PIL import Image
+import pytesseract
 # from flask_cors import CORS
 
 app = Flask(__name__)
@@ -38,10 +40,17 @@ def upload_image():
         with open(filename, 'wb') as f:
             f.write(image_data)
             # return f'Image saved as {filename}'
+        
+        img=Image.open(filename)
+        if(img==None):
+            return "❌ Error: Image not found",200
+        else:
+            text = pytesseract.image_to_string(img)
+            print("Extracted Text:", text)
 
-        print(f"Image saved as {filename}")
-        print(f"Received {len(image_data)} bytes")
-        return "recive",200
+            print(f"Image saved as {filename}")
+            print(f"Received {len(image_data)} bytes")
+            return text,200
 
     except Exception as e:
         return f"❌ Error: {str(e)}", 500
