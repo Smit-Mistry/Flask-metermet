@@ -45,6 +45,7 @@ def upload_image():
         if(img==None):
             return "❌ Error: Image not found",200
         else:
+            pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'  # Update this path if necessary
             text = pytesseract.image_to_string(img)
             print("Extracted Text:", text)
 
