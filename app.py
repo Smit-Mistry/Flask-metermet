@@ -136,6 +136,27 @@ def upload_image():
     except Exception as e:
         return f"❌ Error: {str(e)}", 500
 
+@app.route('/uploaddata', methods=['POST'])
+def handle_raw_data():
+
+    count=0
+    try:
+        txt_data = request.data
+        filename = f'text_{int(count)}.txt'
+        count+=1
+        # print(image_data)
+
+        with open(filename, 'wb') as f:
+            f.write(txt_data)
+            # return f'Image saved as {filename}'
+
+        print(f"Image saved as {filename}")
+        print(f"Received {len(txt_data)} bytes")
+        return "recive",200
+
+    except Exception as e:
+        return f"❌ Error: {str(e)}", 500
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=3001, debug=True)
